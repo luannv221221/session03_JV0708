@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="character-target-div"></div>
+    <button id="animate-button">Animate</button>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <script>
+        var writer = HanziWriter.create('character-target-div', '漢', {
+            width: 500,
+            height: 500,
+            padding: 5,
+            // showOutline: true,
+            strokeColor: '#EE00FF',
+            // radicalColor: '#168F16'
+        });
+        document.getElementById('animate-button').addEventListener('click', function () {
+            writer.animateCharacter();
+        });
+    </script>
+</body>
+
+</html>

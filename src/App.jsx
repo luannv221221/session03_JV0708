@@ -5,6 +5,7 @@ import Event from './Event'
 import StateDemo from './StateDemo'
 import Form from './Form'
 import Login from './Login'
+import KanjiAnimation from './KanjiAnimation'
 // import './App.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       {/* <StateDemo /> */}
       {/* <Form /> */}
       <Login />
+      {/* <KanjiAnimation /> */}
     </>
   )
 }
