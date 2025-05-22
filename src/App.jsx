@@ -12,12 +12,12 @@ function App() {
 
   return (
     <>
-      <h1>Session 03</h1>
+      {/* <h1>Session 03</h1> */}
       {/* <Event /> */}
       {/* <StateDemo /> */}
       {/* <Form /> */}
-      <Login />
-      {/* <KanjiAnimation /> */}
+      {/* <Login /> */}
+      <KanjiAnimation />
     </>
   )
 }

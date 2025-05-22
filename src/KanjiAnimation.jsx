@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 
 const KanjiAPIComponent = () => {
-    const [kanji, setKanji] = useState('あ'); // Ký tự đầu vào mặc định
+    const [kanji, setKanji] = useState('あ');
     const [responseData, setResponseData] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // Hàm chuyển đổi ký tự thành mã Unicode
     const getUnicode = (char) => {
         return char.charCodeAt(0);
     };
 
-    // Hàm gửi dữ liệu đến API
     const handleSubmit = async () => {
-        setLoading(true); // Bắt đầu tải
-        const unicodeValue = getUnicode(kanji); // Lấy mã Unicode của ký tự
+        setLoading(true);
+        const unicodeValue = getUnicode(kanji);
 
         const payload = {
-            lang: "ja", // Ngôn ngữ Nhật
-            data: [unicodeValue] // Gửi mã Unicode trong mảng
+            lang: "ja",
+            data: [unicodeValue]
         };
 
         try {
-            const response = await fetch('http://localhost/animCJK/samples/_php/fetchData.php', {
+            const response = await fetch('http://localhost:8080/animCJK/samples/_php/fetchData.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,11 +28,16 @@ const KanjiAPIComponent = () => {
             });
 
             const data = await response.json();
-            setResponseData(data); // Nhận dữ liệu trả về từ API
+
+            if (data && data.length > 0) {
+                setResponseData(data[0]); // chỉ lấy phần tử đầu tiên trong mảng
+            } else {
+                setResponseData(null);
+            }
         } catch (error) {
             console.error('Error:', error);
         } finally {
-            setLoading(false); // Kết thúc quá trình tải
+            setLoading(false);
         }
     };
 
@@ -44,17 +47,28 @@ const KanjiAPIComponent = () => {
             <input
                 type="text"
                 value={kanji}
-                onChange={(e) => setKanji(e.target.value)} // Cập nhật ký tự nhập vào
+                onChange={(e) => setKanji(e.target.value)}
                 placeholder="Nhập ký tự Kanji"
+                maxLength={1}
             />
             <button onClick={handleSubmit} disabled={loading}>
                 {loading ? 'Đang tải...' : 'Gửi đến API'}
             </button>
 
+            {/* Hiển thị phản hồi */}
             {responseData && (
-                <div>
-                    <h2>Phản hồi từ API:</h2>
-                    <pre>{JSON.stringify(responseData, null, 2)}</pre>
+                <div style={{ marginTop: 20 }}>
+                    <h2>Ký tự: {responseData.character}</h2>
+
+                    {/* SVG trả về từ API */}
+                    {responseData.svg ? (
+                        <div
+                            dangerouslySetInnerHTML={{ __html: responseData.svg }}
+                            style={{ width: '300px' }}
+                        />
+                    ) : (
+                        <p>Không có dữ liệu SVG.</p>
+                    )}
                 </div>
             )}
         </div>
